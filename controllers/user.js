@@ -1,13 +1,8 @@
 var User = require('../models/user');
 
-
-
 var UserController = {
   Index:function(req, res){
-
-    req.session.viewCount += 1;
-
-    res.render('user/signup', { title: 'Signup to Acebook', viewCount: req.session.viewCount  }); // is this useruser grabbing entire instance
+    res.render('user/signup', { title: 'Signup to Acebook'}); // is this useruser grabbing entire instance
   },
 
   Create: function(req, res) {
@@ -27,7 +22,7 @@ var UserController = {
     User.findOne({ _id: req.session.user }, function(err, user) {
       if (err) { throw err; }
 
-      res.render('user/valid', { firstName: user.firstName, lastName: user.lastName, email: user.email, password: user.password, user: req.session.user });
+      res.render('user/validate', { firstName: user.firstName, lastName: user.lastName, email: user.email, password: user.password, user: req.session.user });
     });
   },
 };
