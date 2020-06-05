@@ -1,17 +1,41 @@
 <h1 class="title"> {{title}} </h1>
 
-<form id="new-user-form" action="/signup" method="post">
-  <label for="firstName">First Name: </label>
-  <input id="firstName" type="text" name="firstName" value="">
+{{ #if success}}
+  <section class='Success'> 
+    
+    <h2>Successful sign up</h2>
 
-  <label for="lastName">Last Name: </label>
-  <input id="lastName" type="text" name="lastName" value="">
+  </section>
+{{ else }}
+  {{ #if errors }}
+    <section class='errors'>
+      <ul>
+        {{ # each errors }}
+          <li>
+            {{ this.msg }}
+          </li>
+        {{/each}}
+      </ul>
+    </section>
+  {{/if}}
+  <form id="new-user-form" action="/signup" method="post">
+    <label for="firstName">First Name: </label>
+    <input id="firstName" type="text" name="firstName" value="">
 
-  <label for="email">E-mail: </label>
-  <input id="email" type="text" name="email" value="">
+    <label for="lastName">Last Name: </label>
+    <input id="lastName" type="text" name="lastName" value="">
 
-  <label for="password">Password: </label>
-  <input id="password" type="text" name="password" value="">
+    <label for="email">E-mail: </label>
+    <input id="email" type="text" name="email" value="">
 
-  <input type="submit" value="Submit">
-</form>
+    <label for="password">Password: </label>
+    <input id="password" type="text" name="password" value="">
+
+    <input type="submit" value="Submit">
+  </form>
+
+{{/if}}
+
+
+
+

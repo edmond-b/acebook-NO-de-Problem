@@ -5,25 +5,43 @@ var User = require('../models/user');
 var UserController = {
   Index:function(req, res){
 
-    req.session.viewCount += 1;
-
-    res.render('user/signup', { title: 'Signup to Acebook', viewCount: req.session.viewCount  }); // is this useruser grabbing entire instance
+    res.render('user/signup', { title: 'Signup to Acebook', success: req.session.success, errors: req.session.errors  }); // is this useruser grabbing entire instance
+    req.session.errors = null;
   },
 
   Create: function(req, res) {
     var user = new User({firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email, password: req.body.password});
+    
+    // check 
 
-    user.save(function(err) {
-      if (err) { throw err; }
 
-      res.status(201).redirect('/signup/validate');
-    });
+    req.check('email', "ERROR email in use").isEmail()
+    req.check("password", "PAssword is too short").isLength(8).equals(req.body.confirmPassword)
+    
 
-    req.session.user = user._id
+    var errors = req.validateErrors();
+    if (errors){
+      req.session.errors = errors
+      req.session.success = false
+    } else {
+      req.session.success = true
+      user.save(function(err) {
+        if (err) { throw err; }
+        res.status(201).redirect('/signup/validate');
+      });
+      
+      req.session.user = user._id
+    }
+
+    res.redirect("/signup");
+
+
+
+   
   },
+  
 
   Validate: function(req, res){
-
     User.findOne({ _id: req.session.user }, function(err, user) {
       if (err) { throw err; }
 

@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var expressValidator = require('express-validator')
 const session = require('express-session');
 
 var homeRouter = require('./routes/home');
@@ -10,6 +11,7 @@ var postsRouter = require('./routes/posts');
 var userRouter = require('./routes/user');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,11 +22,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use(expressValidator());
 app.use(session({
   secret: "secret-key",
-  resave: false,
+  resave: false, /// may need to change to true
   saveUninitialized: false,
-}));
+})); /// change storage
+
+
 
 // route setup
 app.use('/', homeRouter);
