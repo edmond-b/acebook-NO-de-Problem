@@ -1,5 +1,5 @@
 'use strict';
-// import Post from './postComponent';
+//import Post from './postComponent';
 
 class NewsfeedPostsComponent extends React.Component {
   constructor() {
@@ -8,6 +8,7 @@ class NewsfeedPostsComponent extends React.Component {
       posts: []
     };
   }
+  // event for when the component loads
   componentDidMount() {
     this.fetchData('/newsfeed/posts');
   }
